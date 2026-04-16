@@ -1,8 +1,9 @@
 from fastapi import APIRouter
+from python_market_data.models.market import StockQuoteResponse, CompanyProfileResponse
 
 router = APIRouter(prefix="/api/market", tags=["Market Data"])
 
-@router.get("/quotes/{symbol}")
+@router.get("/quotes/{symbol}", response_model=StockQuoteResponse)
 def get_stock_quote(symbol: str):
     """
     Mock implementation of fetching a stock quote.
@@ -16,7 +17,7 @@ def get_stock_quote(symbol: str):
         "source": "MOCK"
     }
 
-@router.get("/profile/{symbol}")
+@router.get("/profile/{symbol}", response_model=CompanyProfileResponse)
 def get_company_profile(symbol: str):
     """
     Mock implementation of fetching company profile.
@@ -28,3 +29,4 @@ def get_company_profile(symbol: str):
         "industry": "Software",
         "market_cap": 2500000000000
     }
+
