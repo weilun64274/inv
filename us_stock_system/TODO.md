@@ -16,3 +16,10 @@
    - **新視窗：** 開啟**新對話**，請 AI 在新資料夾處理任務二。
 
 這樣兩個 AI 對話就能真正同時為您工作，且互不干擾。
+
+---
+
+**下一步**：在 `c:\my\inv` 根目錄下建立雙子資料夾與預設環境： (已完成)
+- [x] `python_market_data` (使用 Poetry + FastAPI)
+- [x] `java_portfolio_core` (使用 Gradle + Spring Boot 3 + Java 21)
+
