@@ -19,10 +19,6 @@
 
 ---
 
-**下一步**：在 `c:\my\inv` 根目錄下建立雙子資料夾與預設環境： (已完成)
-- [x] `python_market_data` (使用 Poetry + FastAPI)
-- [x] `java_portfolio_core` (使用 Gradle + Spring Boot 3 + Java 21)
-
 **待辦基礎建設 (Infrastructure Pending):**
 - [ ] 建立共用基礎連線環境 (撰寫 `docker-compose.yml` 啟動 PostgreSQL 與 Message Queue)
 - [ ] 撰寫跨語言專案啟動與管理腳本 (例如 Makefile 或啟動腳本，一鍵啟動所有服務與環境)
