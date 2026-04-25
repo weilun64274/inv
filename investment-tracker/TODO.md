@@ -1,5 +1,8 @@
 # TODO
 
+> **內部專案名稱**: investment-tracker
+> **對外產品名稱**: NaviPort
+
 ## 技巧：使用 Git Worktree 讓 AI 同時處理多個任務 (真平行處理)
 
 當遇到需要同時處理多個耗時任務（例如：爬資料 + 解 Bug）時，依序執行以下步驟：
