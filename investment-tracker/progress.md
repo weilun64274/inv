@@ -21,9 +21,10 @@
   - 導入 `@ConfigurationProperties` 建立 `PortfolioProperties` 類別，集中管理 `portfolio.*` 自訂應用程式屬性。
   - 運用巢狀類別 `Trade` 完美對齊 YAML 檔中的階層結構 (`portfolio.trade.merge-tolerance`)。
   - 將 `TradeService` 中寫死的部位合併容忍度常數，改為透過建構子注入 `PortfolioProperties` 讀取，增強了動態調整彈性與編譯期型別安全。
-
-
-## 📌 下一步待辦清單 (Next Steps)
-- [ ] 撰寫 `docker-compose.yml` 將 PostgreSQL 資料庫與 Message Queue 開啟。
-- [ ] 將 Python 與 Java 互相溝通的環境或排程腳本串聯並啟動。
-- [ ] 測試 Java 端的交易 API 以確認 PostgreSQL 可以順利落地紀錄。
+- [x] **例外處理架構與 SQL 管理重構 (2026-04-25)**：
+  - **自訂例外系統**：建立 `NaviPortException` (預期內業務例外) 與 `NaviPortSysException` (不可預期系統例外)，並導入 `NaviPortErrorCode` Enum 統一管理全英文錯誤訊息與代碼。
+  - **SQL 檔案分離與強型別管理**：將 Repository 中寫死的 SQL 字串抽出為獨立的 `.sql` 檔案（位於 `resources/sql/`），並實作 `SqlPath` Enum 與 `SqlReader` 工具，以強型別方式安全地在應用程式啟動時載入。
+- [x] **開發備忘錄與進度盤點 (2026-04-25)**：
+  - 更新 `TODO.md`，設立「下次處理 (Next Actions)」備忘區塊。
+  - 將系統現有進度清晰歸類為「1-1 架構類」與「1-2 API 盤點」。
+  - 增列後續重點工作提醒，包含：程式碼審查 (Code Review)、實作 API 攔截器 (Filter/Interceptor)，以及建立全域例外處理器 (Global Exception Handler)。

@@ -1,6 +1,8 @@
 package com.inv.portfolio.repository;
 
 import com.inv.portfolio.model.Position;
+import com.inv.portfolio.util.SqlPath;
+import com.inv.portfolio.util.SqlReader;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -15,6 +17,11 @@ import java.util.List;
 @Repository
 public class PositionRepository {
     private final NamedParameterJdbcTemplate jdbcTemplate;
+    
+    private final String findAllSql = SqlReader.read(SqlPath.POSITION_FIND_ALL);
+    private final String findBySymbolSql = SqlReader.read(SqlPath.POSITION_FIND_BY_SYMBOL);
+    private final String insertSql = SqlReader.read(SqlPath.POSITION_INSERT);
+    private final String updateSql = SqlReader.read(SqlPath.POSITION_UPDATE);
 
     /**
      * 預設建構子，注入 JDBC Template。
@@ -43,7 +50,7 @@ public class PositionRepository {
      * @return 所有部位清單
      */
     public List<Position> findAll() {
-        return jdbcTemplate.query("SELECT * FROM position", rowMapper);
+        return jdbcTemplate.query(findAllSql, rowMapper);
     }
 
     /**
@@ -54,7 +61,7 @@ public class PositionRepository {
      * @return 該股票所有查到的部位清單
      */
     public List<Position> findBySymbol(String symbol) {
-        return jdbcTemplate.query("SELECT * FROM position WHERE symbol = :symbol",
+        return jdbcTemplate.query(findBySymbolSql,
                 new MapSqlParameterSource("symbol", symbol), rowMapper);
     }
 
@@ -65,17 +72,12 @@ public class PositionRepository {
      * @return 新增完成後，由資料庫所核發的 Auto-increment ID
      */
     public Long insert(Position position) {
-        String sql = """
-            INSERT INTO position (symbol, shares, average_cost, created_at, updated_at)
-            VALUES (:symbol, :shares, :averageCost, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
-            RETURNING id
-        """;
         MapSqlParameterSource params = new MapSqlParameterSource()
             .addValue("symbol", position.symbol())
             .addValue("shares", position.shares())
             .addValue("averageCost", position.averageCost());
 
-        return jdbcTemplate.queryForObject(sql, params, Long.class);
+        return jdbcTemplate.queryForObject(insertSql, params, Long.class);
     }
 
     /**
@@ -84,18 +86,11 @@ public class PositionRepository {
      * @param position 帶有剛異動完之最新數據的部位物件
      */
     public void update(Position position) {
-        String sql = """
-            UPDATE position
-            SET shares = :shares,
-                average_cost = :averageCost,
-                updated_at = CURRENT_TIMESTAMP
-            WHERE id = :id
-        """;
         MapSqlParameterSource params = new MapSqlParameterSource()
             .addValue("shares", position.shares())
             .addValue("averageCost", position.averageCost())
             .addValue("id", position.id());
 
-        jdbcTemplate.update(sql, params);
+        jdbcTemplate.update(updateSql, params);
     }
 }

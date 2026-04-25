@@ -3,6 +3,8 @@ package com.inv.portfolio.service;
 import com.inv.portfolio.config.PortfolioProperties;
 import com.inv.portfolio.dto.PositionSummary;
 import com.inv.portfolio.dto.TradeRequest;
+import com.inv.portfolio.exception.NaviPortErrorCode;
+import com.inv.portfolio.exception.NaviPortException;
 import com.inv.portfolio.enums.TradeType;
 import com.inv.portfolio.model.Position;
 import com.inv.portfolio.model.Transaction;
@@ -63,7 +65,7 @@ public class TradeService {
         } else if (request.type() == TradeType.SELL) {
             handleSell(request);
         } else {
-            throw new IllegalArgumentException("Unsupported trade type: " + request.type());
+            throw new NaviPortException(NaviPortErrorCode.UNSUPPORTED_TRADE_TYPE, String.valueOf(request.type()));
         }
     }
 
@@ -104,7 +106,7 @@ public class TradeService {
         Position targetPosition = existingPositions.stream()
             .filter(p -> p.shares().compareTo(request.shares()) >= 0)
             .findFirst()
-            .orElseThrow(() -> new IllegalArgumentException("Not enough shares to sell in a single position"));
+            .orElseThrow(() -> new NaviPortException(NaviPortErrorCode.INSUFFICIENT_SHARES));
 
         BigDecimal newShares = targetPosition.shares().subtract(request.shares());
         Position updatedPos = new Position(targetPosition.id(), targetPosition.symbol(), newShares, targetPosition.averageCost(), targetPosition.createdAt(), LocalDateTime.now());

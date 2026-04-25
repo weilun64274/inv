@@ -23,16 +23,6 @@ public class Application {
     }
 
     /**
-     * 基礎的首頁 API，用於確認伺服器已正常啟動並能處理請求。
-     *
-     * @return 簡單的歡迎字串
-     */
-    @GetMapping("/")
-    public String home() {
-        return "Welcome to Java Portfolio Core API!";
-    }
-
-    /**
      * 系統健康狀態 API，通常用於 Load Balancer (LB) 或 K8s Liveness Probes 來進行伺服器存活檢查。
      *
      * @return 正常回應 "ok"

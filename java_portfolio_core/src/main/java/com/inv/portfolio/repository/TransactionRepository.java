@@ -1,6 +1,8 @@
 package com.inv.portfolio.repository;
 
 import com.inv.portfolio.model.Transaction;
+import com.inv.portfolio.util.SqlPath;
+import com.inv.portfolio.util.SqlReader;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -13,6 +15,7 @@ import java.sql.Timestamp;
 @Repository
 public class TransactionRepository {
     private final NamedParameterJdbcTemplate jdbcTemplate;
+    private final String insertSql = SqlReader.read(SqlPath.TRANSACTION_INSERT);
 
     /**
      * 預設建構子。
@@ -30,10 +33,6 @@ public class TransactionRepository {
      * @param transaction 準備寫入明細庫之物件
      */
     public void insert(Transaction transaction) {
-        String sql = """
-            INSERT INTO transaction (position_id, type, shares, price, exchange_rate, tax_amount, transaction_date)
-            VALUES (:positionId, :type, :shares, :price, :exchangeRate, :taxAmount, :transactionDate)
-        """;
         MapSqlParameterSource params = new MapSqlParameterSource()
             .addValue("positionId", transaction.positionId())
             .addValue("type", transaction.type() != null ? transaction.type().name() : null)
@@ -43,6 +42,6 @@ public class TransactionRepository {
             .addValue("taxAmount", transaction.taxAmount())
             .addValue("transactionDate", Timestamp.valueOf(transaction.transactionDate()));
         
-        jdbcTemplate.update(sql, params);
+        jdbcTemplate.update(insertSql, params);
     }
 }

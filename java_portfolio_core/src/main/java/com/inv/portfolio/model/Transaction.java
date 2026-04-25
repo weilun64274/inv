@@ -19,12 +19,12 @@ import java.time.LocalDateTime;
  * @param transactionDate 交易發生的實際時間點
  */
 public record Transaction(
-    Long id,
-    Long positionId,
-    TradeType type,
-    BigDecimal shares,
-    BigDecimal price,
-    BigDecimal exchangeRate,
-    BigDecimal taxAmount,
-    LocalDateTime transactionDate
-) {}
+        Long id,
+        Long positionId,
+        TradeType type,
+        BigDecimal shares,
+        BigDecimal price,
+        BigDecimal exchangeRate,
+        BigDecimal taxAmount,
+        LocalDateTime transactionDate) {
+}
