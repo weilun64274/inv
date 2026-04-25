@@ -1,8 +1,8 @@
 package com.inv.portfolio.service;
 
+import com.inv.portfolio.config.PortfolioProperties;
 import com.inv.portfolio.dto.PositionSummary;
 import com.inv.portfolio.dto.TradeRequest;
-import com.inv.portfolio.enums.MergeTolerance;
 import com.inv.portfolio.enums.TradeType;
 import com.inv.portfolio.model.Position;
 import com.inv.portfolio.model.Transaction;
@@ -25,16 +25,21 @@ public class TradeService {
 
     private final PositionRepository positionRepository;
     private final TransactionRepository transactionRepository;
+    private final PortfolioProperties portfolioProperties;
 
     /**
      * 建構子。
      *
      * @param positionRepository 部位資料庫存取層
      * @param transactionRepository 交易明細資料庫存取層
+     * @param portfolioProperties 集中管理的系統設定屬性
      */
-    public TradeService(PositionRepository positionRepository, TransactionRepository transactionRepository) {
+    public TradeService(PositionRepository positionRepository, 
+                        TransactionRepository transactionRepository,
+                        PortfolioProperties portfolioProperties) {
         this.positionRepository = positionRepository;
         this.transactionRepository = transactionRepository;
+        this.portfolioProperties = portfolioProperties;
     }
 
     /**
@@ -69,7 +74,7 @@ public class TradeService {
         for (Position pos : existingPositions) {
             BigDecimal diffRatio = pos.averageCost().subtract(request.price()).abs()
                     .divide(pos.averageCost(), 4, RoundingMode.HALF_UP);
-            if (diffRatio.compareTo(MergeTolerance.DEFAULT.getRatio()) <= 0) {
+            if (diffRatio.compareTo(portfolioProperties.getTrade().getMergeTolerance().getRatio()) <= 0) {
                 targetPosition = pos;
                 break;
             }

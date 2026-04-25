@@ -8,3 +8,8 @@ spring:
     driver-class-name: org.postgresql.Driver
 server:
   port: 8080
+
+portfolio:
+  trade:
+    # 部位合併容忍度，可選值: STRICT (2%), DEFAULT (5%), RELAXED (10%)
+    merge-tolerance: DEFAULT

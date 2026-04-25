@@ -17,6 +17,11 @@
   - `POST /api/portfolio/trade`：接收交易請求。
   - `GET /api/portfolio/{symbol}/summary`：整合回傳單一股票整體的平均成本與持有總股數。
 - [x] **程式碼文件化**：為所有的 Class 與 Method 補齊了 JavaDoc 註解說明業務邏輯與參數。(處理中)
+- [x] **設定檔與屬性管理重構 (2026-04-25)**：
+  - 導入 `@ConfigurationProperties` 建立 `PortfolioProperties` 類別，集中管理 `portfolio.*` 自訂應用程式屬性。
+  - 運用巢狀類別 `Trade` 完美對齊 YAML 檔中的階層結構 (`portfolio.trade.merge-tolerance`)。
+  - 將 `TradeService` 中寫死的部位合併容忍度常數，改為透過建構子注入 `PortfolioProperties` 讀取，增強了動態調整彈性與編譯期型別安全。
+
 
 ## 📌 下一步待辦清單 (Next Steps)
 - [ ] 撰寫 `docker-compose.yml` 將 PostgreSQL 資料庫與 Message Queue 開啟。

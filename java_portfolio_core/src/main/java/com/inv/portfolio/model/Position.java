@@ -15,10 +15,10 @@ import java.time.LocalDateTime;
  * @param updatedAt   最後一次異動此部位的時間
  */
 public record Position(
-    Long id,
-    String symbol,
-    BigDecimal shares,
-    BigDecimal averageCost,
-    LocalDateTime createdAt,
-    LocalDateTime updatedAt
-) {}
+        Long id,
+        String symbol,
+        BigDecimal shares,
+        BigDecimal averageCost,
+        LocalDateTime createdAt,
+        LocalDateTime updatedAt) {
+}

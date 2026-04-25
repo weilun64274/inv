@@ -25,3 +25,5 @@
 **待辦基礎建設 (Infrastructure Pending):**
 - [ ] 建立共用基礎連線環境 (撰寫 `docker-compose.yml` 啟動 PostgreSQL 與 Message Queue)
 - [ ] 撰寫跨語言專案啟動與管理腳本 (例如 Makefile 或啟動腳本，一鍵啟動所有服務與環境)
+
+
